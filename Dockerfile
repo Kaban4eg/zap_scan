@@ -5,7 +5,7 @@ LABEL maintainer="Dick Snel <dick.snel@ictu.nl>"
 
 RUN pip install selenium
 RUN pip install pyvirtualdisplay
-RUN pip install deepdiff
+RUN pip install jsondiff
 
 USER root
 
