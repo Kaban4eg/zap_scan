@@ -2,9 +2,6 @@ import sys
 from deepdiff import DeepDiff
 import json
 
-#f1 = "D:\\zap_report\\ino.json"  # standart
-#f2 = "D:\\zap_report\\new.ino.json"  # new scan
-
 def main():
     f1=sys.argv[1]
     f2=sys.argv[2]
