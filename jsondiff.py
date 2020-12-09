@@ -1,34 +1,23 @@
-import sys
-#from deepdiff import DeepDiff
-import jsondiff
 import json
+import sys
+
+def jsontomas(file):
+    with open(file) as json_file:
+        data = json.load(json_file)
+        new=[]
+        for site in data['site']:
+            for alert in site['alerts']:
+                if "Informational (" not in alert['riskdesc'] and ("Low (" not in alert['riskdesc']):
+                    for inst in alert['instances']:
+                        new.append("site:"+site['@name']+";alertlevel:"+alert['riskdesc']+";url:"+inst['uri']+";cweid:"+alert['cweid'])
+    return new
 
 def main():
     f1=sys.argv[1]
     f2=sys.argv[2]
-    #f1 = "D:\\zap_report\\ino.json"  # standart
-    #f2 = "D:\\zap_report\\new.ino.json"  # new scan
-    with open(f1) as json_file:
-        data1 = json.load(json_file)
-        #data1 = json_file.read().replace('\\', '/')
-
-    with open(f2) as json_file:
-        data2 = json.load(json_file)
-        #data2 = json_file.read().replace('\\', '/')
-    #ddiff = DeepDiff(data1, data2, ignore_order=True)
-    #print(ddiff)
-    #for inst in ddiff['iterable_item_added']:
-    #    print(ddiff['iterable_item_added'][inst]['uri'] + " : " + ddiff['iterable_item_added'][inst]['method'])
-    ddiff=jsondiff.diff(data1,data2)
-
-    for site in ddiff['site']:
-        for i in ddiff['site'][site]:
-            for alert in ddiff['site'][site][i]:
-                for inst in ddiff['site'][site][i][alert]:
-                    for ins in ddiff['site'][site][i][alert][inst]:
-                        for j in ddiff['site'][site][i][alert][inst][ins]:
-                            print(j)
-
+    for alert in jsontomas(f2):
+        if alert not in jsontomas(f1):
+                print(alert)
 
 if __name__ == '__main__':
     main()
